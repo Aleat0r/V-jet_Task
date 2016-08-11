@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_padding">
+
+    <ImageView
+        android:id="@+id/img_profile"
+        android:layout_width="@dimen/com_facebook_profilepictureview_preset_size_large"
+        android:layout_height="@dimen/com_facebook_profilepictureview_preset_size_large"
+        android:layout_gravity="center_horizontal"
+        tools:src="@drawable/com_facebook_profile_picture_blank_square" />
+
+    <TextView
+        style="@style/SecondaryTextView"
+        android:text="@string/name" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        style="@style/PrimaryTextView"
+        android:text="@string/empty_name" />
+
+    <TextView
+        style="@style/SecondaryTextView"
+        android:text="@string/email" />
+
+    <TextView
+        android:id="@+id/tv_email"
+        style="@style/PrimaryTextView"
+        android:text="@string/empty_email" />
+
+    <TextView
+        style="@style/SecondaryTextView"
+        android:text="@string/b_date" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        style="@style/PrimaryTextView"
+        android:text="@string/empty_b_date" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btn_log_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="@string/btn_logout" />
+
+</LinearLayout>
