@@ -34,9 +34,11 @@ public interface SocNetworkAccountContract {
 
     interface Model {
 
-        SocNetworkProfile getSavedProfile(String id, String socNetwork);
+        SocNetworkProfile getSavedProfile(String id);
 
-        void saveProfile(String id, String name, String email, String birthday, String photoUrl, String token, String socNetwork, OnSaveCallback callback);
+        void saveProfile(String id, String name, String email, String birthday, String photoUrl, String token, OnSaveCallback callback);
+
+        void deleteSavedProfile(String id);
 
         String getProfileImageUrl(String id);
 

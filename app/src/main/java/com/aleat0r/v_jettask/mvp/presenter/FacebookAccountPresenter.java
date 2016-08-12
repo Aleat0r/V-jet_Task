@@ -110,9 +110,9 @@ public class FacebookAccountPresenter implements SocNetworkAccountContract.Prese
             LoginManager.getInstance().logInWithReadPermissions(mView.getActivity(), permissions);
 
         } else {
-            SocNetworkProfile profile = mModel.getSavedProfile(mAccessToken.getUserId(), Constants.SOC_NETWORK_FACEBOOK);
+            SocNetworkProfile profile = mModel.getSavedProfile(Constants.SOC_NETWORK_FACEBOOK);
             mView.updateTextInfo(profile.getName(), profile.getEmail(), profile.getBirthday());
-            mView.updatePicture(mModel.getProfileImageUrl(mAccessToken.getUserId()));
+            mView.updatePicture(mModel.getProfileImageUrl(Constants.SOC_NETWORK_FACEBOOK));
         }
     }
 
@@ -124,16 +124,17 @@ public class FacebookAccountPresenter implements SocNetworkAccountContract.Prese
     @Override
     public void logOut() {
         LoginManager.getInstance().logOut();
+        mModel.deleteSavedProfile(Constants.SOC_NETWORK_FACEBOOK);
         mView.finish();
     }
 
     private void saveProfile(final String name, final String email, final String birthday, String photoUrl) {
-        mModel.saveProfile(mAccessToken.getUserId(), name, email, birthday, photoUrl, mAccessToken.getToken(),
-                Constants.SOC_NETWORK_FACEBOOK, new SocNetworkAccountContract.Model.OnSaveCallback() {
+        mModel.saveProfile(Constants.SOC_NETWORK_FACEBOOK, name, email, birthday, photoUrl, mAccessToken.getToken(),
+                new SocNetworkAccountContract.Model.OnSaveCallback() {
                     @Override
                     public void onSuccess() {
                         mView.updateTextInfo(name, email, birthday);
-                        mView.updatePicture(mModel.getProfileImageUrl(mAccessToken.getUserId()));
+                        mView.updatePicture(mModel.getProfileImageUrl(Constants.SOC_NETWORK_FACEBOOK));
                     }
 
                     @Override

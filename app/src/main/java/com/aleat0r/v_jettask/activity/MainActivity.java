@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_twitter:
                 break;
             case R.id.btn_google_plus:
+                mPresenter.openSocNetworkProfile(Constants.SOC_NETWORK_GOOGLE_PLUS);
                 break;
             case R.id.btn_vkontakte:
                 break;

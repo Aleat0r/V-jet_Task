@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "589675944791",
+    "project_id": "v-jet-task"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589675944791:android:ad80c06a47bc45a0",
+        "android_client_info": {
+          "package_name": "com.aleat0r.v_jettask"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "589675944791-hevpd52cee2217j1tng40jc9h21qicpm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aleat0r.v_jettask",
+            "certificate_hash": "C65336DAAD7DC31069103722EDA68B05275F8A77"
+          }
+        },
+        {
+          "client_id": "589675944791-uiplqlrn866q0el1huokror49hpg42cf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvIPARUm1ss4XIVzxVaEdjlieBIGjf4SM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

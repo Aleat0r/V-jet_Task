@@ -19,17 +19,16 @@ public class SocNetworkProfileModel implements SocNetworkAccountContract.Model {
     }
 
     @Override
-    public SocNetworkProfile getSavedProfile(String id, String socNetwork) {
-        SocNetworkProfile cachedProfile = mRealm.where(SocNetworkProfile.class)
+    public SocNetworkProfile getSavedProfile(String id) {
+        SocNetworkProfile savedProfile = mRealm.where(SocNetworkProfile.class)
                 .equalTo("id", id)
-                .equalTo("socNetwork", socNetwork)
                 .findFirst();
-        return cachedProfile;
+        return savedProfile;
     }
 
     @Override
     public void saveProfile(final String id, final String name, final String email, final String birthday, final String photoUrl,
-                            final String token, final String socNetwork, final OnSaveCallback callback) {
+                            final String token, final OnSaveCallback callback) {
 
         mRealm.executeTransactionAsync(
                 new Realm.Transaction() {
@@ -37,7 +36,6 @@ public class SocNetworkProfileModel implements SocNetworkAccountContract.Model {
                     public void execute(Realm realm) {
                         SocNetworkProfile socNetworkProfile = realm.where(SocNetworkProfile.class)
                                 .equalTo("id", id)
-                                .equalTo("socNetwork", socNetwork)
                                 .findFirst();
 
                         if (socNetworkProfile == null) {
@@ -49,7 +47,6 @@ public class SocNetworkProfileModel implements SocNetworkAccountContract.Model {
                         socNetworkProfile.setBirthday(birthday);
                         socNetworkProfile.setPictureUrl(photoUrl);
                         socNetworkProfile.setToken(token);
-                        socNetworkProfile.setSocNetwork(socNetwork);
                     }
                 }, new Realm.Transaction.OnSuccess() {
                     @Override
@@ -63,6 +60,17 @@ public class SocNetworkProfileModel implements SocNetworkAccountContract.Model {
                     }
                 }
         );
+    }
+
+    @Override
+    public void deleteSavedProfile(String id) {
+        mRealm.beginTransaction();
+        SocNetworkProfile profile = getSavedProfile(id);
+        if (profile != null) {
+            profile.deleteFromRealm();
+        }
+        mRealm.commitTransaction();
+
     }
 
     @Override

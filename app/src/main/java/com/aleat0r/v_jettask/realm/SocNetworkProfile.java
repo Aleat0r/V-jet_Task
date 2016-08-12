@@ -18,7 +18,6 @@ public class SocNetworkProfile extends RealmObject {
     private String email;
     private String birthday;
     private String pictureUrl;
-    private String socNetwork;
 
     public String getId() {
         return id;
@@ -69,11 +68,4 @@ public class SocNetworkProfile extends RealmObject {
         this.pictureUrl = pictureUrl;
     }
 
-    public String getSocNetwork() {
-        return socNetwork;
-    }
-
-    public void setSocNetwork(String socNetwork) {
-        this.socNetwork = socNetwork;
-    }
 }

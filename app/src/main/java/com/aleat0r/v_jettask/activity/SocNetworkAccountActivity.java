@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.aleat0r.v_jettask.R;
 import com.aleat0r.v_jettask.mvp.SocNetworkAccountContract;
 import com.aleat0r.v_jettask.mvp.presenter.FacebookAccountPresenter;
+import com.aleat0r.v_jettask.mvp.presenter.GooglePlusAccountPresenter;
 import com.aleat0r.v_jettask.utils.Constants;
 import com.bumptech.glide.Glide;
 
@@ -41,7 +42,7 @@ public class SocNetworkAccountActivity extends AppCompatActivity implements SocN
     TextView mTvDate;
 
     private String mSocNetworkType;
-    private SocNetworkAccountContract.Presenter mFacebookPresenter;
+    private SocNetworkAccountContract.Presenter mSocNetworkPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +54,16 @@ public class SocNetworkAccountActivity extends AppCompatActivity implements SocN
         mSocNetworkType = intent.getStringExtra(Constants.SOC_NETWORK_INTENT_EXTRA);
 
         selectPresenter();
+        mSocNetworkPresenter.onCreate();
     }
 
     private void selectPresenter() {
         switch (mSocNetworkType) {
             case Constants.SOC_NETWORK_FACEBOOK:
-                mFacebookPresenter = new FacebookAccountPresenter(this, this);
-                mFacebookPresenter.onCreate();
+                mSocNetworkPresenter = new FacebookAccountPresenter(this, this);
                 break;
             case Constants.SOC_NETWORK_GOOGLE_PLUS:
+                mSocNetworkPresenter = new GooglePlusAccountPresenter(this, this);
                 break;
             case Constants.SOC_NETWORK_TWITTER:
                 break;
@@ -106,31 +108,11 @@ public class SocNetworkAccountActivity extends AppCompatActivity implements SocN
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (mSocNetworkType) {
-            case Constants.SOC_NETWORK_FACEBOOK:
-                mFacebookPresenter.onActivityResult(requestCode, resultCode, data);
-                break;
-            case Constants.SOC_NETWORK_GOOGLE_PLUS:
-                break;
-            case Constants.SOC_NETWORK_TWITTER:
-                break;
-            case Constants.SOC_NETWORK_VKONTAKTE:
-                break;
-        }
+        mSocNetworkPresenter.onActivityResult(requestCode, resultCode, data);
     }
 
     @OnClick(R.id.btn_log_out)
     public void onClickBtnLogout() {
-        switch (mSocNetworkType) {
-            case Constants.SOC_NETWORK_FACEBOOK:
-                mFacebookPresenter.logOut();
-                break;
-            case Constants.SOC_NETWORK_GOOGLE_PLUS:
-                break;
-            case Constants.SOC_NETWORK_TWITTER:
-                break;
-            case Constants.SOC_NETWORK_VKONTAKTE:
-                break;
-        }
+        mSocNetworkPresenter.logOut();
     }
 }
