@@ -9,6 +9,9 @@
     <!--Twitter-->
     <string name="twitter_profile_pic_type">_normal</string>
 
+    <!--Vkontakte-->
+    <integer name="com_vk_sdk_AppId">5585455</integer>
+
     <!--SocNetworkAccountActivity-->
     <string name="name">Имя:</string>
     <string name="email">Эл. почта:</string>

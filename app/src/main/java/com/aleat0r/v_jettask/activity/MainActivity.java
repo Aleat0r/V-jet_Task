@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 mPresenter.openSocNetworkProfile(Constants.SOC_NETWORK_GOOGLE_PLUS);
                 break;
             case R.id.btn_vkontakte:
+                mPresenter.openSocNetworkProfile(Constants.SOC_NETWORK_VKONTAKTE);
                 break;
             default:
                 break;

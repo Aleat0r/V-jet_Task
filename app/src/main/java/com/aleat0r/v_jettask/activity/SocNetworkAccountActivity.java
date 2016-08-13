@@ -15,6 +15,7 @@ import com.aleat0r.v_jettask.mvp.SocNetworkAccountContract;
 import com.aleat0r.v_jettask.mvp.presenter.FacebookAccountPresenter;
 import com.aleat0r.v_jettask.mvp.presenter.GooglePlusAccountPresenter;
 import com.aleat0r.v_jettask.mvp.presenter.TwitterAccountPresenter;
+import com.aleat0r.v_jettask.mvp.presenter.VkontakteAccountPresenter;
 import com.aleat0r.v_jettask.utils.Constants;
 import com.bumptech.glide.Glide;
 
@@ -70,6 +71,7 @@ public class SocNetworkAccountActivity extends AppCompatActivity implements SocN
                 mSocNetworkPresenter = new TwitterAccountPresenter(this, this);
                 break;
             case Constants.SOC_NETWORK_VKONTAKTE:
+                mSocNetworkPresenter = new VkontakteAccountPresenter(this, this);
                 break;
         }
     }
