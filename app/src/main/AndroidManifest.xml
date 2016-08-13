@@ -12,10 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="orientation"
@@ -31,6 +27,14 @@
             android:name=".activity.SocNetworkAccountActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"></activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="a83a742d5e899805d154c3062932a6b8d5a91a3e" />
 
     </application>
 

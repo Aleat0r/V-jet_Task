@@ -89,7 +89,7 @@ public class FacebookAccountPresenter implements SocNetworkAccountContract.Prese
                                 }
                             });
                     Bundle parameters = new Bundle();
-                    parameters.putString("fields", "name, email, gender, birthday");
+                    parameters.putString("fields", Constants.FACEBOOK_FIELDS);
                     request.setParameters(parameters);
                     request.executeAsync();
                 }

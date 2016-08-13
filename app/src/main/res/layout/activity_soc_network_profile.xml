@@ -21,7 +21,7 @@
     <TextView
         android:id="@+id/tv_name"
         style="@style/PrimaryTextView"
-        android:text="@string/empty_name" />
+        android:text="@string/empty_value" />
 
     <TextView
         style="@style/SecondaryTextView"
@@ -30,7 +30,7 @@
     <TextView
         android:id="@+id/tv_email"
         style="@style/PrimaryTextView"
-        android:text="@string/empty_email" />
+        android:text="@string/empty_value" />
 
     <TextView
         style="@style/SecondaryTextView"
@@ -39,7 +39,7 @@
     <TextView
         android:id="@+id/tv_date"
         style="@style/PrimaryTextView"
-        android:text="@string/empty_b_date" />
+        android:text="@string/empty_value" />
 
     <Space
         android:layout_width="wrap_content"

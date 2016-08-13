@@ -6,13 +6,14 @@
     <string name="fb_profile_pic_url">https://graph.facebook.com/</string>
     <string name="fb_profile_pic_type">/picture?type=large</string>
 
+    <!--Twitter-->
+    <string name="twitter_profile_pic_type">_normal</string>
+
     <!--SocNetworkAccountActivity-->
     <string name="name">Имя:</string>
     <string name="email">Эл. почта:</string>
     <string name="b_date">Дата рождения:</string>
-    <string name="empty_name">имя не указано</string>
-    <string name="empty_email">email не указан</string>
-    <string name="empty_b_date">дата рождения не указана</string>
+    <string name="empty_value">---</string>
     <string name="btn_logout">LOG OUT</string>
 
 </resources>
