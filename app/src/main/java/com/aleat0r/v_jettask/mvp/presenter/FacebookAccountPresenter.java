@@ -2,6 +2,7 @@ package com.aleat0r.v_jettask.mvp.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.aleat0r.v_jettask.R;
@@ -18,12 +19,13 @@ import com.facebook.GraphResponse;
 
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
-import java.util.Collection;
 
 /**
  * Created by Aleksandr Kovalenko on 10.08.2016.
@@ -36,10 +38,7 @@ public class FacebookAccountPresenter implements SocNetworkAccountContract.Prese
     private CallbackManager mCallbackManager;
     private AccessToken mAccessToken;
 
-    private Context mContext;
-
     public FacebookAccountPresenter(Context context, SocNetworkAccountContract.View mView) {
-        mContext = context;
         this.mView = mView;
         this.mModel = new SocNetworkProfileModel(context);
     }
@@ -82,8 +81,8 @@ public class FacebookAccountPresenter implements SocNetworkAccountContract.Prese
                                         e.printStackTrace();
                                     }
 
-                                    String pictureUrl = mContext.getString(R.string.fb_profile_pic_url) + mAccessToken.getUserId() +
-                                            mContext.getString(R.string.fb_profile_pic_type);
+                                    String pictureUrl = mView.getActivity().getString(R.string.fb_profile_pic_url) + mAccessToken.getUserId() +
+                                            mView.getActivity().getString(R.string.fb_profile_pic_type);
 
                                     saveProfile(name, email, birthday, pictureUrl);
                                 }
@@ -106,8 +105,7 @@ public class FacebookAccountPresenter implements SocNetworkAccountContract.Prese
                 }
             });
 
-            Collection<String> permissions = Arrays.asList(Constants.FACEBOOK_PERMISSIONS);
-            LoginManager.getInstance().logInWithReadPermissions(mView.getActivity(), permissions);
+            LoginManager.getInstance().logInWithReadPermissions(mView.getActivity(), Arrays.asList(Constants.FACEBOOK_PERMISSIONS));
 
         } else {
             SocNetworkProfile profile = mModel.getSavedProfile(Constants.SOC_NETWORK_FACEBOOK);
@@ -126,6 +124,19 @@ public class FacebookAccountPresenter implements SocNetworkAccountContract.Prese
         LoginManager.getInstance().logOut();
         mModel.deleteSavedProfile(Constants.SOC_NETWORK_FACEBOOK);
         mView.finish();
+    }
+
+    @Override
+    public void post() {
+//        доделать !!!!!
+//        LoginManager.getInstance().logInWithPublishPermissions(mView.getActivity(), Arrays.asList("publish_actions"));
+//
+//        ShareDialog shareDialog = new ShareDialog(mView.getActivity());
+//        ShareLinkContent content = new ShareLinkContent.Builder()
+//                .setContentUrl(Uri.parse(mView.getActivity().getString(R.string.link_for_post)))
+//                .setContentDescription(mView.getActivity().getString(R.string.post))
+//                .build();
+//        shareDialog.show(content);
     }
 
     private void saveProfile(final String name, final String email, final String birthday, String photoUrl) {

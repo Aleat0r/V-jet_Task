@@ -2,8 +2,8 @@ package com.aleat0r.v_jettask.mvp.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 
+import com.aleat0r.v_jettask.R;
 import com.aleat0r.v_jettask.mvp.SocNetworkAccountContract;
 import com.aleat0r.v_jettask.mvp.model.SocNetworkProfileModel;
 import com.aleat0r.v_jettask.realm.SocNetworkProfile;
@@ -18,6 +18,8 @@ import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.dialogs.VKShareDialog;
+import com.vk.sdk.dialogs.VKShareDialogBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,20 +32,17 @@ public class VkontakteAccountPresenter implements SocNetworkAccountContract.Pres
     private SocNetworkAccountContract.View mView;
     private SocNetworkAccountContract.Model mModel;
 
-    private final String[] sMyScope = new String[]{VKScope.EMAIL};
+    private final String[] sMyScope = new String[]{VKScope.EMAIL, VKScope.WALL};
     private VKAccessToken mVkAccessToken;
 
-    private Context mContext;
-
     public VkontakteAccountPresenter(Context context, SocNetworkAccountContract.View mView) {
-        mContext = context;
         this.mView = mView;
         this.mModel = new SocNetworkProfileModel(context);
     }
 
     @Override
     public void onCreate() {
-        VKSdk.login((AppCompatActivity) mContext, sMyScope);
+        VKSdk.login(mView.getActivity(), sMyScope);
     }
 
     private void showSavedProfile() {
@@ -59,6 +58,7 @@ public class VkontakteAccountPresenter implements SocNetworkAccountContract.Pres
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
+
             @Override
             public void onResult(VKAccessToken vkAccessToken) {
                 mVkAccessToken = vkAccessToken;
@@ -109,7 +109,7 @@ public class VkontakteAccountPresenter implements SocNetworkAccountContract.Pres
                         e.printStackTrace();
                     }
 
-                    saveProfile(firstName + lastName, mVkAccessToken.email, bdate, photo);
+                    saveProfile(firstName + " " + lastName, mVkAccessToken.email, bdate, photo);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -123,6 +123,28 @@ public class VkontakteAccountPresenter implements SocNetworkAccountContract.Pres
         VKSdk.logout();
         mModel.deleteSavedProfile(Constants.SOC_NETWORK_VKONTAKTE);
         mView.finish();
+    }
+
+    @Override
+    public void post() {
+        VKShareDialogBuilder builder = new VKShareDialogBuilder();
+        builder.setText(mView.getActivity().getString(R.string.post));
+        builder.setAttachmentLink("", mView.getActivity().getString(R.string.link_for_post));
+        builder.setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
+            @Override
+            public void onVkShareComplete(int postId) {
+            }
+
+            @Override
+            public void onVkShareCancel() {
+            }
+
+            @Override
+            public void onVkShareError(VKError error) {
+                mView.showMessage(error.apiError != null ? error.apiError.errorMessage : error.errorMessage);
+            }
+        });
+        builder.show(mView.getActivity().getFragmentManager(), "VK_SHARE_DIALOG");
     }
 
     private void saveProfile(final String name, final String email, final String birthday, String photoUrl) {

@@ -2,9 +2,11 @@ package com.aleat0r.v_jettask.mvp.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
+import com.aleat0r.v_jettask.R;
 import com.aleat0r.v_jettask.mvp.SocNetworkAccountContract;
 import com.aleat0r.v_jettask.mvp.model.SocNetworkProfileModel;
 import com.aleat0r.v_jettask.realm.SocNetworkProfile;
@@ -19,6 +21,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.PlusShare;
 import com.google.android.gms.plus.model.people.Person;
 
 
@@ -36,10 +39,7 @@ public class GooglePlusAccountPresenter implements SocNetworkAccountContract.Pre
     private GoogleApiClient mGoogleApiClient;
     private Person mPerson;
 
-    private Context mContext;
-
     public GooglePlusAccountPresenter(Context context, SocNetworkAccountContract.View mView) {
-        mContext = context;
         this.mView = mView;
         this.mModel = new SocNetworkProfileModel(context);
     }
@@ -50,14 +50,14 @@ public class GooglePlusAccountPresenter implements SocNetworkAccountContract.Pre
                 .requestEmail()
                 .build();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(mContext)
-                .enableAutoManage((AppCompatActivity) mContext, this)
+        mGoogleApiClient = new GoogleApiClient.Builder(mView.getActivity())
+                .enableAutoManage((AppCompatActivity) mView.getActivity(), this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .addApi(Plus.API)
                 .build();
 
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        ((AppCompatActivity) mContext).startActivityForResult(signInIntent, RC_SIGN_IN);
+        (mView.getActivity()).startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
 
@@ -115,6 +115,16 @@ public class GooglePlusAccountPresenter implements SocNetworkAccountContract.Pre
                         mView.finish();
                     }
                 });
+    }
+
+    @Override
+    public void post() {
+        Intent shareIntent = new PlusShare.Builder(mView.getActivity())
+                .setType("text/plain")
+                .setText(mView.getActivity().getString(R.string.post))
+                .setContentUrl(Uri.parse(mView.getActivity().getString(R.string.link_for_post)))
+                .getIntent();
+        (mView.getActivity()).startActivityForResult(shareIntent, 0);
     }
 
     private void saveProfile(GoogleSignInAccount signInAccount, Person person) {

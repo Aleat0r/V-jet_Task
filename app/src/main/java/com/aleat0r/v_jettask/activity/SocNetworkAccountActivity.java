@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +31,9 @@ public class SocNetworkAccountActivity extends AppCompatActivity implements SocN
 
     @BindView(R.id.btn_log_out)
     Button mBtnLogout;
+
+    @BindView(R.id.btn_post)
+    Button mBtnPost;
 
     @BindView(R.id.img_profile)
     ImageView mImgProfile;
@@ -115,8 +119,18 @@ public class SocNetworkAccountActivity extends AppCompatActivity implements SocN
         mSocNetworkPresenter.onActivityResult(requestCode, resultCode, data);
     }
 
-    @OnClick(R.id.btn_log_out)
-    public void onClickBtnLogout() {
-        mSocNetworkPresenter.logOut();
+    @OnClick({R.id.btn_log_out, R.id.btn_post})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_log_out:
+                mSocNetworkPresenter.logOut();
+                break;
+            case R.id.btn_post:
+                mSocNetworkPresenter.post();
+                break;
+            default:
+                break;
+        }
     }
+
 }

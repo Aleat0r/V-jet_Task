@@ -3,7 +3,6 @@ package com.aleat0r.v_jettask.mvp.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.webkit.CookieManager;
 
 import com.aleat0r.v_jettask.R;
@@ -20,6 +19,10 @@ import com.twitter.sdk.android.core.TwitterSession;
 
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.twitter.sdk.android.core.models.User;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by Aleksandr Kovalenko on 13.08.2016.
@@ -32,10 +35,7 @@ public class TwitterAccountPresenter implements SocNetworkAccountContract.Presen
     private TwitterAuthClient mTwitterClient;
     private TwitterSession mSession;
 
-    private Context mContext;
-
     public TwitterAccountPresenter(Context context, SocNetworkAccountContract.View mView) {
-        mContext = context;
         this.mView = mView;
         this.mModel = new SocNetworkProfileModel(context);
     }
@@ -43,7 +43,7 @@ public class TwitterAccountPresenter implements SocNetworkAccountContract.Presen
     @Override
     public void onCreate() {
         mTwitterClient = new TwitterAuthClient();
-        mTwitterClient.authorize((AppCompatActivity) mContext, new Callback<TwitterSession>() {
+        mTwitterClient.authorize(mView.getActivity(), new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
                 mSession = result.data;
@@ -70,7 +70,7 @@ public class TwitterAccountPresenter implements SocNetworkAccountContract.Presen
                     public void success(Result<User> userResult) {
                         User user = userResult.data;
                         String name = user.name;
-                        String profilePictureUrl = user.profileImageUrl.replace(mContext.getString(R.string.twitter_profile_pic_type), "");
+                        String profilePictureUrl = user.profileImageUrl.replace(mView.getActivity().getString(R.string.twitter_profile_pic_type), "");
                         getEmail(name, profilePictureUrl);
                     }
                 });
@@ -123,6 +123,19 @@ public class TwitterAccountPresenter implements SocNetworkAccountContract.Presen
 
         mModel.deleteSavedProfile(Constants.SOC_NETWORK_TWITTER);
         mView.finish();
+    }
+
+    @Override
+    public void post() {
+        TweetComposer.Builder builder = null;
+        try {
+            builder = new TweetComposer.Builder(mView.getActivity())
+                    .text(mView.getActivity().getString(R.string.post))
+                    .url(new URL(mView.getActivity().getString(R.string.link_for_post)));
+            builder.show();
+        } catch (MalformedURLException e) {
+            mView.showMessage(e.getLocalizedMessage());
+        }
     }
 
     private void saveProfile(final String name, final String email, final String birthday, String photoUrl) {

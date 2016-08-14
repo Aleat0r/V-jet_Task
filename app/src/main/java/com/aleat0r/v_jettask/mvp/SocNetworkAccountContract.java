@@ -17,6 +17,8 @@ public interface SocNetworkAccountContract {
         void onActivityResult(int requestCode, int resultCode, Intent data);
 
         void logOut();
+
+        void post();
     }
 
     interface View {
