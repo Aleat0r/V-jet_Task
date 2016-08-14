@@ -105,7 +105,7 @@ public class FacebookAccountPresenter implements SocNetworkAccountContract.Prese
                 }
             });
 
-            LoginManager.getInstance().logInWithReadPermissions(mView.getActivity(), Arrays.asList(Constants.FACEBOOK_PERMISSIONS));
+            LoginManager.getInstance().logInWithReadPermissions(mView.getActivity(), Arrays.asList(Constants.FACEBOOK_PERMISSIONS_FOR_LOGIN));
 
         } else {
             SocNetworkProfile profile = mModel.getSavedProfile(Constants.SOC_NETWORK_FACEBOOK);
@@ -128,15 +128,37 @@ public class FacebookAccountPresenter implements SocNetworkAccountContract.Prese
 
     @Override
     public void post() {
-//        доделать !!!!!
-//        LoginManager.getInstance().logInWithPublishPermissions(mView.getActivity(), Arrays.asList("publish_actions"));
-//
-//        ShareDialog shareDialog = new ShareDialog(mView.getActivity());
-//        ShareLinkContent content = new ShareLinkContent.Builder()
-//                .setContentUrl(Uri.parse(mView.getActivity().getString(R.string.link_for_post)))
-//                .setContentDescription(mView.getActivity().getString(R.string.post))
-//                .build();
-//        shareDialog.show(content);
+        if (!AccessToken.getCurrentAccessToken().getPermissions().contains(Constants.FACEBOOK_PERMISSION_FOR_POST)) {
+            LoginManager manager = LoginManager.getInstance();
+            manager.logInWithPublishPermissions(mView.getActivity(), Arrays.asList(Constants.FACEBOOK_PERMISSION_FOR_POST));
+            manager.registerCallback(mCallbackManager,
+                    new FacebookCallback<LoginResult>() {
+                        @Override
+                        public void onSuccess(LoginResult loginResult) {
+                            publishPost();
+                        }
+
+                        @Override
+                        public void onCancel() {
+                        }
+
+                        @Override
+                        public void onError(FacebookException exception) {
+                            mView.showMessage(exception.getLocalizedMessage());
+                        }
+                    });
+        } else {
+            publishPost();
+        }
+    }
+
+    private void publishPost() {
+        ShareDialog shareDialog = new ShareDialog(mView.getActivity());
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse(mView.getActivity().getString(R.string.link_for_post)))
+                .setContentDescription(mView.getActivity().getString(R.string.post))
+                .build();
+        shareDialog.show(content);
     }
 
     private void saveProfile(final String name, final String email, final String birthday, String photoUrl) {

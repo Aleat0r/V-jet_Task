@@ -1,14 +1,13 @@
 package com.aleat0r.v_jettask.utils;
 
-import com.twitter.sdk.android.Twitter;
-
 /**
  * Created by Aleksandr Kovalenko on 11.08.2016.
  */
 public class Constants {
 
     //    Facebook
-    public static final String[] FACEBOOK_PERMISSIONS = {"email", "public_profile", "user_birthday"};
+    public static final String[] FACEBOOK_PERMISSIONS_FOR_LOGIN = {"email", "public_profile", "user_birthday"};
+    public static final String FACEBOOK_PERMISSION_FOR_POST = "publish_actions";
     public static final String FACEBOOK_FIELDS = "name, email, gender, birthday";
 
     //    Twitter
