@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context=".ui.activity.GalleryActivity">
+
+    <com.aleat0r.v_jettask.utils.custom.view.HackyViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBackground"
+        android:padding="10dip"
+        app:fillColor="@android:color/white"
+        app:pageColor="@color/colorPrimary"
+        app:radius="@dimen/radius_page_indicator"
+        app:strokeColor="@color/colorPrimary"
+        app:strokeWidth="@dimen/stroke_width_page_indicator" />
+
+</LinearLayout>

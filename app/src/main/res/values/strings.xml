@@ -20,6 +20,9 @@
     <string name="btn_logout">LOG OUT</string>
     <string name="btn_post">POST</string>
 
+    <!--MainActivity-->
+    <string name="btn_gallery">GALLERY</string>
+
     <!--Posts-->
     <string name="post">Test post from V-jet Task</string>
     <string name="link_for_post">https://developers.google.com/</string>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="picture_urls">
+        <item>https://habrastorage.org/files/635/795/c61/635795c616ad46529269a6a90c960792.jpg</item>
+        <item>https://habrastorage.org/files/455/afc/b14/455afcb1439241edbd5907ed33316cff.jpeg</item>
+        <item>https://habrastorage.org/files/948/d81/79e/948d8179e85e49b09c115827e9b8f9b2.jpg</item>
+        <item>https://habrastorage.org/files/9d7/1e5/e27/9d71e5e27151403facb009a68db4fb42.jpg</item>
+        <item>https://habrastorage.org/files/d42/0f8/e30/d420f8e30ca44e6db4951dd51f0707be.jpg</item>
+        <item> https://habrastorage.org/files/b8c/c19/f13/b8cc19f1315b487c937848f6bb31960c.jpg</item>
+    </string-array>
+</resources>

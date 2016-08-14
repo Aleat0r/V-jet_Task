@@ -1,4 +1,4 @@
-package com.aleat0r.v_jettask.activity;
+package com.aleat0r.v_jettask.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -131,6 +131,12 @@ public class SocNetworkAccountActivity extends AppCompatActivity implements SocN
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSocNetworkPresenter.onDestroy();
     }
 
 }

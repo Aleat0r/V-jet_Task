@@ -4,4 +4,7 @@
 
     <dimen name="text_size">17sp</dimen>
     <dimen name="tv_margin">5dp</dimen>
+
+    <dimen name="radius_page_indicator">5dp</dimen>
+    <dimen name="stroke_width_page_indicator">2dp</dimen>
 </resources>

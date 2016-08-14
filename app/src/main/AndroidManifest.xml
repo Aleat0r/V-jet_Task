@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">>
             <intent-filter>
@@ -24,7 +24,7 @@
         </activity>
 
         <activity
-            android:name=".activity.SocNetworkAccountActivity"
+            android:name=".ui.activity.SocNetworkAccountActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"></activity>
 
@@ -34,14 +34,19 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <provider android:authorities="com.facebook.app.FacebookContentProvider1771063339844418"
+        <provider
             android:name="com.facebook.FacebookContentProvider"
-            android:exported="true"/>
+            android:authorities="com.facebook.app.FacebookContentProvider1771063339844418"
+            android:exported="true" />
 
         <activity
             android:name="com.vk.sdk.VKServiceActivity"
             android:label="ServiceActivity"
             android:theme="@style/VK.Transparent" />
+
+        <activity
+            android:name=".ui.activity.GalleryActivity"
+            android:theme="@style/ThemeNoActionBar"></activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
