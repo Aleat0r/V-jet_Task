@@ -19,6 +19,8 @@ public interface SocNetworkAccountContract {
         void logOut();
 
         void post();
+
+        void onDestroy();
     }
 
     interface View {

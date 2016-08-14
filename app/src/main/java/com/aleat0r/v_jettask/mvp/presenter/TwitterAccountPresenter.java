@@ -153,4 +153,8 @@ public class TwitterAccountPresenter implements SocNetworkAccountContract.Presen
                     }
                 });
     }
+
+    @Override
+    public void onDestroy() {
+    }
 }

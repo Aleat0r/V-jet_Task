@@ -17,6 +17,8 @@ import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.share.model.ShareLinkContent;
@@ -37,6 +39,7 @@ public class FacebookAccountPresenter implements SocNetworkAccountContract.Prese
 
     private CallbackManager mCallbackManager;
     private AccessToken mAccessToken;
+    private ProfileTracker mProfileTracker;
 
     public FacebookAccountPresenter(Context context, SocNetworkAccountContract.View mView) {
         this.mView = mView;
@@ -56,41 +59,19 @@ public class FacebookAccountPresenter implements SocNetworkAccountContract.Prese
                 public void onSuccess(LoginResult loginResult) {
                     mAccessToken = loginResult.getAccessToken();
 
-                    GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
-                            new GraphRequest.GraphJSONObjectCallback() {
-                                @Override
-                                public void onCompleted(JSONObject data, GraphResponse response) {
-                                    String name = null;
-                                    try {
-                                        name = data.getString("name");
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    String email = null;
-                                    try {
-                                        email = data.getString("email");
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    String birthday = null;
-                                    try {
-                                        birthday = data.getString("birthday");
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    String pictureUrl = mView.getActivity().getString(R.string.fb_profile_pic_url) + mAccessToken.getUserId() +
-                                            mView.getActivity().getString(R.string.fb_profile_pic_type);
-
-                                    saveProfile(name, email, birthday, pictureUrl);
-                                }
-                            });
-                    Bundle parameters = new Bundle();
-                    parameters.putString("fields", Constants.FACEBOOK_FIELDS);
-                    request.setParameters(parameters);
-                    request.executeAsync();
+                    Profile profile = Profile.getCurrentProfile();
+                    if (profile == null) {
+                        mProfileTracker = new ProfileTracker() {
+                            @Override
+                            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                                stopTracking();
+                                getUserData();
+                            }
+                        };
+                        mProfileTracker.startTracking();
+                    } else {
+                        getUserData();
+                    }
                 }
 
                 @Override
@@ -112,6 +93,43 @@ public class FacebookAccountPresenter implements SocNetworkAccountContract.Prese
             mView.updateTextInfo(profile.getName(), profile.getEmail(), profile.getBirthday());
             mView.updatePicture(mModel.getProfileImageUrl(Constants.SOC_NETWORK_FACEBOOK));
         }
+    }
+
+    private void getUserData() {
+        GraphRequest request = GraphRequest.newMeRequest(mAccessToken, new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject data, GraphResponse response) {
+                String name = null;
+                try {
+                    name = data.getString("name");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String email = null;
+                try {
+                    email = data.getString("email");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String birthday = null;
+                try {
+                    birthday = data.getString("birthday");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String pictureUrl = mView.getActivity().getString(R.string.fb_profile_pic_url) + mAccessToken.getUserId() +
+                        mView.getActivity().getString(R.string.fb_profile_pic_type);
+
+                saveProfile(name, email, birthday, pictureUrl);
+            }
+        });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", Constants.FACEBOOK_FIELDS);
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     @Override
@@ -175,5 +193,12 @@ public class FacebookAccountPresenter implements SocNetworkAccountContract.Prese
                         mView.showMessage(error.getLocalizedMessage());
                     }
                 });
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mProfileTracker != null && mProfileTracker.isTracking()) {
+            mProfileTracker.stopTracking();
+        }
     }
 }

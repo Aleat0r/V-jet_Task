@@ -147,4 +147,8 @@ public class GooglePlusAccountPresenter implements SocNetworkAccountContract.Pre
             }
         });
     }
+
+    @Override
+    public void onDestroy() {
+    }
 }

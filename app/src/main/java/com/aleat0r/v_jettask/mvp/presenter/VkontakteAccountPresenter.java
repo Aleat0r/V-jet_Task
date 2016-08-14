@@ -162,4 +162,8 @@ public class VkontakteAccountPresenter implements SocNetworkAccountContract.Pres
                     }
                 });
     }
+
+    @Override
+    public void onDestroy() {
+    }
 }
